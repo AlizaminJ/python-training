@@ -1,0 +1,13 @@
+# to create a database on heroku. Be mind that you can have max 5 apps on heroku including databases!
+
+heroku login
+heroku create <YOURDATABASE>
+heroku addons:create heroku-postgresql:hobby-dev --app <YOURDATABASE>
+heroku config --app <YOURDATABASE> # this will give you link to database
+
+
+
+# to run sql codes on heroku
+heroku login
+heroku pg:psql --app <YOURDATABASE> 
+# be aware that you have to put semicolon at the end of every sql code
