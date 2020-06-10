@@ -1,23 +1,31 @@
 # pip install Flask-PyMongo
 from flask import Flask, jsonify, request
 from flask_pymongo import PyMongo
+from bson.json_util import dumps  # to convert bson to json
+
 
 app = Flask(__name__)
-app.config['MONGO_DBNAME'] = 'test'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/stars'
+#app.config['MONGO_DBNAME'] = 'test'
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/test'
 
 mongo = PyMongo(app)
 
 
-@app.route('/star', methods=['GET'])
+@app.route('/')
+def index():
+    return ('hello there')
+
+
+@app.route('/stars', methods=['GET'])
 def get_all_stars():
-    star = mongo.db.get_all_starsoutput = []
-    for s in star.find():
-        output.append({'name': s['name'], 'distance': s['distance']})
-    return jsonify({'result': output})
+    stars = mongo.db.stars.find()
+    resp = dumps(stars)
+    # for s in star.find():
+    #     output.append({'name': s['name'], 'distance': s['distance']})
+    return jsonify({'output': resp})
 
 
-@app.route('/star/', methods=['GET'])
+@app.route('/star/<name>', methods=['GET'])
 def get_one_star(name):
     star = mongo.db.stars
     s = star.find_one({'name': name})
@@ -30,13 +38,17 @@ def get_one_star(name):
 
 @app.route('/star', methods=['POST'])
 def add_star():
-    star = mongo.db.stars
-    name = request.json['name']
-    distance = request.json['distance']
-    star_id = star.insert({'name': name, 'distance': distance})
-    new_star = star.find_one({'_id': star_id})
-    output = {'name': new_star[name], 'distance': new_star['distance']}
-    return jsonify({'result': output})
+    _json = request.json
+    _name = _json['name']
+    _distance = _json['distance']
+    star_id = mongo.db.stars.insert({'name': _name, 'distance': _distance})
+    new_star = mongo.db.stars.find_one({'_id': star_id})
+    #output = {'name': new_star[name], 'distance': new_star['distance']}
+    output = dumps(new_star)
+    #output.status_code = 200
+    resp = jsonify({'User added successfully': output})
+    resp.status_code = 200
+    return resp
 
 
 if __name__ == '__main__':

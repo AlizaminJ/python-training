@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_pymongo import PyMongo
 
-from bson.json_util import dumps  # to convert bson tojson
+from bson.json_util import dumps  # to convert bson to json
 from bson.objectid import ObjectId  # to create objectID in MongoDB
 from werkzeug.security import generate_password_hash, check_password_hash  # hashing algo
 
@@ -11,6 +11,12 @@ app.secret_key = "secretkey"
 app.config['MONGO_URI'] = "mongodb://localhost:27017/test"
 
 mongo = PyMongo(app)  # connect app tp DB
+
+
+# INDEX
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({'message': 'Hello there!'})
 
 
 # CREATE
@@ -23,7 +29,7 @@ def add_user():
 
     if _name and _email and _password and request.method == 'POST':
         _hashed_password = generate_password_hash(_password)
-        id = mongo.db.user.insert(
+        mongo.db.user.insert(
             {'name': _name, 'email': _email, 'pwd': _hashed_password})
         resp = jsonify("User added successfully")
         resp.status_code = 200
