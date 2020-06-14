@@ -1,21 +1,30 @@
-from flask import Flask, jsonify, render_template, request
-import webbrowser
-import time
+import json
 import random
+import time
+from datetime import datetime
 
-app = Flask(__name__)
+from flask import Flask, Response, render_template
+
+application = Flask(__name__)
+random.seed()  # Initialize the random number generator
 
 
-@app.route('/random', methods=['GET'])
-def random_stuff():
-    result = random.randint(0, 10)
-    return jsonify('random_number: {}'.format(result))
-
-
-@app.route('/', methods=['GET'])
+@application.route('/')
 def index():
     return render_template('index.html')
 
 
+@application.route('/chart-data')
+def chart_data():
+    def generate_random_data():
+        while True:
+            json_data = json.dumps(
+                {'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'value': random.random() * 100})
+            yield f"data:{json_data}\n\n"
+            time.sleep(1)
+
+    return Response(generate_random_data(), mimetype='text/event-stream')
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True, threaded=True)
