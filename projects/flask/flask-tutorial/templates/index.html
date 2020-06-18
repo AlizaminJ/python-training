@@ -1,27 +1,41 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js">
-<!--<![endif]-->
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="">
-</head>
+{% block head %}
+<title> Task Master</title>
+{% endblock %}
 
-<body>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis reiciendis excepturi atque nemo maxime aliquam
-    omnis similique fuga explicabo deserunt molestiae repellendus vitae cupiditate facere mollitia beatae, quas eveniet
-    adipisci!
-  </p>
+{% block body %}
+<div class="content">
+  <h1>Task Master</h1>
+  {% if x|length < 1 %}
+  <h4> There are no tasks. Create one below</h4>
 
-  <script src="" async defer></script>
-</body>
+  {% else %}
+  <table>
+    <tr>
+      <th>Task</th>
+      <th>Added</th>
+      <th>Actions</th>
+    </tr>
+    {% for task in x %}
+    <tr>
+      <td>{{ task.content }}</td>
+      <td>{{ task.date_created.date() }}</td>
+      <td>
+        <a href="/delete/{{task.id}}">Delete</a>
+        <a href="/update/{{task.id}}">Update</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
 
-</html>
+  <div class="form">
+    <form action="/" method="POST">
+      <input type="text" name="content" id="content">
+      <input type="submit" value="Add task">
+    </form>
+  </div>
+</div>
+
+{% endblock %}
