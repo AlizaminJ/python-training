@@ -1,3 +1,5 @@
+# https://www.hackerrank.com/challenges/np-array-mathematics/problem?isFullScreen=true&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+
 # import numpy as np
 # n,m = map(int,input().split())
 
