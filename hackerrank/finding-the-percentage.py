@@ -9,4 +9,6 @@ if __name__ == '__main__':
         student_marks[name] = scores
     query_name = input()
     result=sum(student_marks[query_name])/len(student_marks[query_name])
-    print("{:.2f}".format(result))
+    # print(f"{result}")
+    # print("{:.2f}".format(result)) # older syntax
+    print("%.2f" % result)
