@@ -1,1 +1,1 @@
-# Hackerrank Python 
+# Solutions to Hackerrank practice problems
