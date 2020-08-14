@@ -152,6 +152,8 @@ dmypy.json
 .pytype/
 
 ### VisualStudioCode ###
+hackerrank/.vscode/*
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
