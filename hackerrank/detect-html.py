@@ -9,11 +9,6 @@ class MyHTMLParser(HTMLParser):
         for ele in attrs:
             print ('->',ele[0],'>',ele[1])
         
-    def handle_startendtag(self, tag, attrs):
-        print (tag)
-        for ele in attrs: 
-            print ('->',ele[0],'>',ele[1])
-        
 # instantiate the parser and fed it some HTML
 parser = MyHTMLParser()
 parser.feed(''.join([input().strip() for _ in range(int(input()))]))
